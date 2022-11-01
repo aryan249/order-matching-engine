@@ -69,3 +69,5 @@ export class TradeRepository {
     return result.rows.map(rowToTrade);
   }
 }
+
+// handle null asset in order creation - revision 7
