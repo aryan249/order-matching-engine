@@ -135,3 +135,5 @@ describe('BatchExecutionService', () => {
     expect(mockBatchCreate).not.toHaveBeenCalled();
   });
 });
+
+// standardize API error format - revision 34
