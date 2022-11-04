@@ -58,3 +58,57 @@ export class BatchExecutionService {
         if (result.makerOrder.remainingQuantity === 0) {
           await this.orderRepo.updateStatus(result.makerOrder.id, OrderStatus.EXECUTED);
         }
+        if (result.takerOrder.remainingQuantity === 0) {
+          await this.orderRepo.updateStatus(result.takerOrder.id, OrderStatus.EXECUTED);
+        }
+      }
+
+      await client.query('COMMIT');
+
+      metrics.tradesExecuted.inc(chunk.length);
+      metrics.batchesFlushed.inc();
+      metrics.batchBufferSize.set({ asset }, this.buffer.get(asset)?.length || 0);
+
+      await this.pubsub.publish(Channels.BATCH_COMPLETE, {
+        asset,
+        tradeCount: chunk.length,
+        timestamp: new Date().toISOString(),
+      });
+
+      logger.info('Batch executed', { asset, tradeCount: chunk.length });
+    } catch (err) {
+      await client.query('ROLLBACK');
+      logger.error('Batch execution failed', { asset, error: (err as Error).message });
+      throw err;
+    } finally {
+      client.release();
+      timer();
+    }
+  }
+
+  async flushAll(): Promise<void> {
+    const assets = Array.from(this.buffer.keys());
+    await Promise.all(assets.map((asset) => this.flush(asset)));
+  }
+
+  startListening(): void {
+    this.pubsub.subscribe(Channels.TRADE_EXECUTED, (message: unknown) => {
+      try {
+        const results = message as TradeResult[];
+        for (const result of results) {
+          this.addTrade(result);
+        }
+      } catch (err) {
+        logger.error('Error in batch execution listener', { error: (err as Error).message });
+      }
+    });
+  }
+
+  async stop(): Promise<void> {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+    await this.flushAll();
+  }
+}
