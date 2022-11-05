@@ -38,3 +38,43 @@ jest.mock('../../../src/config/logger', () => ({
 
 import { BatchExecutionService } from '../../../src/services/batchExecution';
 
+describe('BatchExecutionService', () => {
+  let service: BatchExecutionService;
+
+  const mockTradeRepo = { batchCreate: mockBatchCreate } as any;
+  const mockOrderRepo = { updateStatus: mockUpdateStatus } as any;
+  const mockPubsub = { publish: mockPublish, subscribe: jest.fn() } as any;
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.clearAllMocks();
+    service = new BatchExecutionService(mockTradeRepo, mockOrderRepo, mockPubsub);
+    mockBatchCreate.mockResolvedValue([]);
+    mockUpdateStatus.mockResolvedValue({});
+    mockPublish.mockResolvedValue(undefined);
+    mockQuery.mockResolvedValue({});
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  function makeTradeResult(id: string): TradeResult {
+    return {
+      trade: {
+        makerOrderId: `maker-${id}`,
+        takerOrderId: `taker-${id}`,
+        asset: 'BTC',
+        price: 50000,
+        quantity: 1,
+      },
+      makerOrder: {
+        id: `maker-${id}`,
+        userId: 'user-1',
+        asset: 'BTC',
+        side: OrderSide.MAKER,
+        price: 50000,
+        quantity: 1,
+        remainingQuantity: 0,
+        status: OrderStatus.MATCHED,
+        createdAt: new Date(),
