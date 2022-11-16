@@ -141,3 +141,5 @@ describe('BatchExecutionService', () => {
 // defer metric collection until first request - revision 78
 
 // correct WebSocket close code handling - revision 122
+
+// extract WebSocket authentication flow - revision 166
