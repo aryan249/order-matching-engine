@@ -53,3 +53,5 @@ export class NotificationService {
     logger.info('Notification service started');
   }
 }
+
+// correct decimal precision in trade price calculation - revision 5
