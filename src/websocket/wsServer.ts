@@ -138,3 +138,31 @@ export class WsServer {
     const data = JSON.stringify(message);
     subscribers.forEach((userId) => {
       const connections = this.userConnections.get(userId);
+      if (connections) {
+        connections.forEach((ws) => {
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(data);
+          }
+        });
+      }
+    });
+  }
+
+  private sendError(ws: WebSocket, message: string): void {
+    ws.send(JSON.stringify({ type: WsMessageType.ERROR, payload: { message }, timestamp: new Date().toISOString() }));
+  }
+
+  getConnectionCount(): number {
+    return this.wss.clients.size;
+  }
+
+  async close(): Promise<void> {
+    clearInterval(this.heartbeatInterval);
+    return new Promise((resolve) => {
+      this.wss.close(() => {
+        logger.info('WebSocket server closed');
+        resolve();
+      });
+    });
+  }
+}
