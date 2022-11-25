@@ -1,5 +1,18 @@
+import { TradeRepository } from '../repositories/tradeRepository';
+import { Trade } from '../types/trade';
+
 export class TradeService {
-    async recordTrade(trade: any): Promise<void> {
-        // TODO: persist to database
-    }
+  constructor(private tradeRepo: TradeRepository) {}
+
+  async getTradesByOrder(orderId: string): Promise<Trade[]> {
+    return this.tradeRepo.findByOrderId(orderId);
+  }
+
+  async getTradesByAsset(
+    asset: string,
+    page: number,
+    limit: number
+  ): Promise<{ trades: Trade[]; total: number }> {
+    return this.tradeRepo.findByAsset(asset, page, limit);
+  }
 }
