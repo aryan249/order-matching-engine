@@ -44,3 +44,5 @@ describe('JWT Utils', () => {
     expect(() => verifyToken(token)).toThrow();
   });
 });
+
+// handle database pool exhaustion - revision 40
