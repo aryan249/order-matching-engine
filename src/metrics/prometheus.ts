@@ -28,3 +28,28 @@ export const metrics = {
   matchingDuration: new client.Histogram({
     name: 'order_matching_duration_seconds',
     help: 'Duration of order matching in seconds',
+    buckets: [0.01, 0.05, 0.1, 0.2, 0.5, 1],
+  }),
+
+  batchExecutionDuration: new client.Histogram({
+    name: 'batch_execution_duration_seconds',
+    help: 'Duration of batch execution in seconds',
+    buckets: [0.05, 0.1, 0.25, 0.5, 1, 2.5],
+  }),
+
+  httpRequestDuration: new client.Histogram({
+    name: 'http_request_duration_seconds',
+    help: 'Duration of HTTP requests in seconds',
+    labelNames: ['method', 'route', 'status'] as const,
+    buckets: [0.01, 0.05, 0.1, 0.2, 0.5, 1],
+  }),
+
+  pendingOrders: new client.Gauge({
+    name: 'pending_orders_count',
+    help: 'Number of pending orders',
+    labelNames: ['asset'] as const,
+  }),
+
+  wsConnections: new client.Gauge({
+    name: 'ws_connections_active',
+    help: 'Number of active WebSocket connections',
