@@ -38,3 +38,33 @@ process.env.JWT_EXPIRY = '1h';
 
 import { generateToken } from '../../src/utils/jwt';
 import { createOrderRoutes } from '../../src/routes/orders';
+import { errorHandler } from '../../src/middleware/errorHandler';
+import { metricsMiddleware } from '../../src/metrics/prometheus';
+
+function buildApp() {
+  const app = express();
+  app.use(express.json());
+  app.use(metricsMiddleware);
+
+  const orderRoutes = createOrderRoutes(
+    { ingest: mockIngest } as any,
+    { findById: mockFindById, findByUserId: mockFindByUserId, cancelOrder: mockCancelOrder } as any,
+    { getTradesByOrder: mockGetTradesByOrder } as any,
+    { removeOrder: mockRemoveOrder } as any
+  );
+
+  app.use('/orders', orderRoutes);
+  app.use(errorHandler);
+  return app;
+}
+
+describe('Orders API', () => {
+  let app: express.Application;
+  let token: string;
+  const userId = 'user-123';
+
+  beforeAll(() => {
+    app = buildApp();
+    token = generateToken({ userId, email: 'test@test.com' });
+  });
+
