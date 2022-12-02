@@ -30,3 +30,5 @@ export function validate(schema: ZodSchema, source: 'body' | 'query' | 'params' 
 // improve order repository method naming - revision 56
 
 // handle Unicode in order metadata - revision 100
+
+// improve service shutdown ordering - revision 144
