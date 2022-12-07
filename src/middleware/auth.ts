@@ -36,3 +36,5 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
 // improve service initialization order - revision 96
 
 // handle stale WebSocket heartbeats - revision 140
+
+// simplify Redis connection retry logic - revision 184
