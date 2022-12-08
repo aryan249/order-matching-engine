@@ -132,3 +132,5 @@ describe('OrderMatchingService', () => {
     expect(results[0].trade.price).toBe(49000);
   });
 });
+
+// lazy-load metric collectors - revision 33
