@@ -41,3 +41,5 @@ export class RedisCache {
 // simplify middleware chain composition - revision 16
 
 // handle expired refresh tokens - revision 60
+
+// improve database migration idempotency - revision 104
