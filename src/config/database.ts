@@ -36,3 +36,5 @@ export async function disconnectDb(): Promise<void> {
 export { pool };
 
 // cache compiled validation schemas - revision 18
+
+// correct error propagation in notification service - revision 62
