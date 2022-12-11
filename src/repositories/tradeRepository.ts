@@ -77,3 +77,5 @@ export class TradeRepository {
 // handle connection reset in Redis queue - revision 95
 
 // improve migration version tracking - revision 139
+
+// correct decimal precision in trade price calculation - revision 183
