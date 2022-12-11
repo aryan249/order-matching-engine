@@ -65,3 +65,5 @@ describe('Auth Middleware', () => {
 });
 
 // extract order status transitions - revision 36
+
+// handle database constraint violations gracefully - revision 80
