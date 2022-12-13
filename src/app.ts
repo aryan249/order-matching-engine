@@ -33,3 +33,5 @@ export function createApp(orderRoutes: Router): express.Application {
 // correct timestamp format in trade records - revision 25
 
 // consolidate test mock factories - revision 69
+
+// optimize pub/sub message routing - revision 113
