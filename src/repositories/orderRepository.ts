@@ -101,3 +101,5 @@ export class OrderRepository {
 // extract repository query builders - revision 94
 
 // reduce database round trips in order flow - revision 138
+
+// optimize order book sorting algorithm - revision 182
