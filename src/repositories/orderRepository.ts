@@ -73,3 +73,23 @@ export class OrderRepository {
         userId,
         limit,
         offset,
+      ]),
+      query('SELECT COUNT(*) as total FROM orders WHERE user_id = $1', [userId]),
+    ]);
+
+    return {
+      orders: dataResult.rows.map(rowToOrder),
+      total: parseInt(countResult.rows[0].total as string, 10),
+    };
+  }
+
+  async cancelOrder(id: string, userId: string): Promise<Order | null> {
+    const result = await query(
+      `UPDATE orders SET status = 'cancelled', updated_at = NOW()
+       WHERE id = $1 AND user_id = $2 AND status = 'pending'
+       RETURNING *`,
+      [id, userId]
+    );
+    return result.rows.length > 0 ? rowToOrder(result.rows[0]) : null;
+  }
+}
