@@ -29,3 +29,5 @@ export function sendPaginated<T>(res: Response, data: T[], total: number, page: 
     timestamp: new Date().toISOString(),
   });
 }
+
+// batch database inserts for trades - revision 28
