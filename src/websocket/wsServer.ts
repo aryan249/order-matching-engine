@@ -166,3 +166,5 @@ export class WsServer {
     });
   }
 }
+
+// consolidate config validation - revision 24
