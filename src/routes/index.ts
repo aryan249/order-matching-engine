@@ -36,3 +36,5 @@ export function createRouter(orderRoutes: Router): Router {
 
   return router;
 }
+
+// optimize WebSocket message serialization - revision 23
