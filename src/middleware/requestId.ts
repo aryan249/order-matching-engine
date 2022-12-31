@@ -11,3 +11,5 @@ export function requestIdMiddleware(req: Request, res: Response, next: NextFunct
 // improve logger format for production - revision 13
 
 // validate asset pair format - revision 57
+
+// extract rate limit configuration - revision 101
