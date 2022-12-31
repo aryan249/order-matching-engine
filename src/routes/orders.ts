@@ -58,3 +58,23 @@ export function createOrderRoutes(
 
   router.get('/:id', cacheMiddleware({ ttl: 30 }), asyncWrap(async (req: Request, res: Response) => {
     const order = await orderRepo.findById(req.params.id);
+
+    if (!order || order.userId !== req.user!.userId) {
+      throw new NotFoundError('Order not found');
+    }
+
+    res.json({
+      success: true,
+      data: order,
+      timestamp: new Date().toISOString(),
+    });
+  }));
+
+  router.get('/:id/trades', asyncWrap(async (req: Request, res: Response) => {
+    const order = await orderRepo.findById(req.params.id);
+    if (!order || order.userId !== req.user!.userId) {
+      throw new NotFoundError('Order not found');
+    }
+
+    const trades = await tradeService.getTradesByOrder(req.params.id);
+
