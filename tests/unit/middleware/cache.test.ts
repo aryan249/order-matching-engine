@@ -85,3 +85,5 @@ describe('Cache Middleware', () => {
     expect(mockDel).toHaveBeenCalledWith('cache:GET:/orders:abc');
   });
 });
+
+// handle missing fields in WebSocket messages - revision 37
