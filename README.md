@@ -128,3 +128,33 @@ Content-Type: application/json
   "password": "securepassword123"
 }
 ```
+
+### Orders
+
+All order endpoints require `Authorization: Bearer <token>` header.
+
+#### Submit Order
+```http
+POST /orders
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "asset": "BTC",
+  "side": "maker",
+  "price": 50000,
+  "quantity": 1.5
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| asset | string | Asset symbol (e.g., BTC, ETH) |
+| side | string | `maker` (sell) or `taker` (buy) |
+| price | number | Order price (must be > 0) |
+| quantity | number | Order quantity (must be > 0) |
+
+#### List Orders
+```http
+GET /orders?page=1&limit=20
+Authorization: Bearer <token>
