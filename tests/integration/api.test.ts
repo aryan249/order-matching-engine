@@ -98,3 +98,33 @@ describe('Orders API', () => {
   });
 
   it('POST /orders - should return 401 without auth', async () => {
+    const res = await request(app).post('/orders').send({ asset: 'BTC', side: 'maker', price: 50000, quantity: 1 });
+
+    expect(res.status).toBe(401);
+  });
+
+  it('POST /orders - should return 400 with invalid body', async () => {
+    const res = await request(app)
+      .post('/orders')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ asset: 'BTC' });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Validation failed');
+  });
+
+  it('GET /orders - should return paginated orders', async () => {
+    mockFindByUserId.mockResolvedValue({ orders: [], total: 0 });
+
+    const res = await request(app).get('/orders').set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.page).toBe(1);
+  });
+
+  it('GET /orders/:id - should return order by id', async () => {
+    mockFindById.mockResolvedValue({
+      id: 'order-1',
+      userId,
+      asset: 'BTC',
