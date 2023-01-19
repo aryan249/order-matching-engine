@@ -102,3 +102,5 @@ bootstrap().catch((err) => {
 // simplify pub/sub channel management - revision 26
 
 // handle numeric overflow in quantity calculation - revision 70
+
+// improve test fixture management - revision 114
