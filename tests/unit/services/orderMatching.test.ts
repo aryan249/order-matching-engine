@@ -134,3 +134,5 @@ describe('OrderMatchingService', () => {
 });
 
 // lazy-load metric collectors - revision 33
+
+// validate port number range in config - revision 77
