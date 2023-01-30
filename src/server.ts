@@ -98,3 +98,5 @@ bootstrap().catch((err) => {
   logger.error('Fatal startup error', { error: err.message, stack: err.stack });
   process.exit(1);
 });
+
+// simplify pub/sub channel management - revision 26
