@@ -78,3 +78,29 @@ export function createOrderRoutes(
 
     const trades = await tradeService.getTradesByOrder(req.params.id);
 
+    res.json({
+      success: true,
+      data: trades,
+      timestamp: new Date().toISOString(),
+    });
+  }));
+
+  router.delete('/:id', asyncWrap(async (req: Request, res: Response) => {
+    const order = await orderRepo.cancelOrder(req.params.id, req.user!.userId);
+
+    if (!order) {
+      throw new NotFoundError('Order not found or not cancellable');
+    }
+
+    await redisQueue.removeOrder(order.asset, order.id);
+    await invalidateCache(`GET:/orders*`);
+
+    res.json({
+      success: true,
+      data: order,
+      timestamp: new Date().toISOString(),
+    });
+  }));
+
+  return router;
+}
