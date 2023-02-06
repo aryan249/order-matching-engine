@@ -40,3 +40,5 @@ export { pool };
 // correct error propagation in notification service - revision 62
 
 // extract cache serialization helpers - revision 106
+
+// handle malformed request body gracefully - revision 150
