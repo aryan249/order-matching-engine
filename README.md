@@ -58,3 +58,43 @@ All components communicate via Redis pub/sub channels, enabling horizontal scali
 - **Metrics**: prom-client (Prometheus)
 - **Logging**: Winston
 - **Testing**: Jest + Supertest
+- **CI/CD**: GitHub Actions
+
+## Prerequisites
+
+- Node.js >= 20
+- Docker and Docker Compose
+- PostgreSQL 15+ (or use Docker)
+- Redis 7+ (or use Docker)
+
+## Quick Start
+
+```bash
+# Clone and install
+git clone <repository-url>
+cd order-matching-engine
+npm install
+
+# Start infrastructure
+docker-compose up -d redis postgres
+
+# Configure environment
+cp .env.example .env
+
+# Run migrations
+npm run migrate
+
+# Start development server
+npm run dev
+```
+
+The HTTP server starts on port 3000 and WebSocket on port 3001.
+
+## API Reference
+
+### Authentication
+
+#### Register
+```http
+POST /auth/register
+Content-Type: application/json
