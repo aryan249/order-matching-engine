@@ -78,3 +78,47 @@ describe('WebSocket Server', () => {
   it('should send messages to authenticated users', async () => {
     const ws = await connectClient();
     const token = generateToken({ userId: 'user-msg', email: 'msg@test.com' });
+
+    const authPromise = waitForMessage(ws);
+    ws.send(JSON.stringify({ type: 'auth', token }));
+    await authPromise;
+
+    const msgPromise = waitForMessage(ws);
+    wsServer.sendToUser('user-msg', {
+      type: WsMessageType.ORDER_UPDATE,
+      payload: { id: 'order-1' },
+      timestamp: new Date().toISOString(),
+    });
+
+    const message = await msgPromise;
+    expect(message.type).toBe(WsMessageType.ORDER_UPDATE);
+
+    ws.close();
+  });
+
+  it('should handle asset subscriptions', async () => {
+    const ws = await connectClient();
+    const token = generateToken({ userId: 'user-sub', email: 'sub@test.com' });
+
+    const authPromise = waitForMessage(ws);
+    ws.send(JSON.stringify({ type: 'auth', token }));
+    await authPromise;
+
+    const subPromise = waitForMessage(ws);
+    ws.send(JSON.stringify({ type: 'subscribe', asset: 'BTC' }));
+    const subResponse = await subPromise;
+    expect(subResponse.type).toBe('subscribed');
+
+    const msgPromise = waitForMessage(ws);
+    wsServer.broadcastToAsset('BTC', {
+      type: WsMessageType.TRADE_EXECUTED,
+      payload: { asset: 'BTC' },
+      timestamp: new Date().toISOString(),
+    });
+
+    const message = await msgPromise;
+    expect(message.type).toBe(WsMessageType.TRADE_EXECUTED);
+
+    ws.close();
+  });
+});
