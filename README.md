@@ -273,3 +273,26 @@ src/
 ├── middleware/       # Auth, rate limiting, caching, validation, errors
 ├── routes/          # Express route handlers
 ├── services/        # Core business logic (5 pipeline components)
+├── repositories/    # Database access layer
+├── queue/           # Redis queue and pub/sub
+├── cache/           # Redis response cache
+├── websocket/       # WebSocket server
+├── metrics/         # Prometheus metrics
+├── db/migrations/   # SQL migration files
+├── app.ts           # Express app assembly
+└── server.ts        # Entry point and bootstrap
+tests/
+├── unit/            # Unit tests with mocked dependencies
+└── integration/     # Integration tests (API, matching, WebSocket)
+```
+
+## Docker
+
+```bash
+# Build and run everything
+docker-compose up --build
+
+# Run only infrastructure
+docker-compose up -d redis postgres
+```
+>>>>>>> c8871d656f4b3e4b998a543b0e47e67e0713a3cb
