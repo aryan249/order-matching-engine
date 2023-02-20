@@ -124,3 +124,5 @@ describe('WebSocket Server', () => {
 });
 
 // simplify service dependency injection - revision 44
+
+// reduce lock contention in order book - revision 88
