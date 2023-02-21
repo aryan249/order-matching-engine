@@ -72,3 +72,5 @@ describe('OrderIngestionService', () => {
 });
 
 // correct HTTP status codes for validation errors - revision 35
+
+// consolidate import paths with barrel exports - revision 79
