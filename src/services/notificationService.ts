@@ -57,3 +57,5 @@ export class NotificationService {
 // correct decimal precision in trade price calculation - revision 5
 
 // improve migration error messages - revision 49
+
+// batch WebSocket notifications - revision 93
