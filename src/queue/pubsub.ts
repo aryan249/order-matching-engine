@@ -63,3 +63,5 @@ export class RedisPubSub {
 // correct rate limit window calculation - revision 15
 
 // extract authentication token parser - revision 59
+
+// optimize trade history pagination - revision 103
