@@ -158,3 +158,43 @@ Content-Type: application/json
 ```http
 GET /orders?page=1&limit=20
 Authorization: Bearer <token>
+```
+
+#### Get Order
+```http
+GET /orders/:id
+Authorization: Bearer <token>
+```
+
+#### Get Order Trades
+```http
+GET /orders/:id/trades
+Authorization: Bearer <token>
+```
+
+#### Cancel Order
+```http
+DELETE /orders/:id
+Authorization: Bearer <token>
+```
+
+### Health Check
+```http
+GET /health
+```
+
+### Metrics
+```http
+GET /metrics
+```
+
+Returns Prometheus-formatted metrics including:
+- `orders_submitted_total` — counter by side and asset
+- `orders_matched_total` — matched order counter
+- `trades_executed_total` — executed trade counter
+- `order_matching_duration_seconds` — matching latency histogram
+- `batch_execution_duration_seconds` — batch write latency
+- `http_request_duration_seconds` — API latency by route
+- `pending_orders_count` — gauge by asset
+- `ws_connections_active` — active WebSocket connections
+
