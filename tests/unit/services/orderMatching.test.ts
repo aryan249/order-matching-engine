@@ -138,3 +138,5 @@ describe('OrderMatchingService', () => {
 // validate port number range in config - revision 77
 
 // improve request validation pipeline - revision 121
+
+// handle partial message in queue dequeue - revision 165
