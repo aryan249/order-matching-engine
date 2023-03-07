@@ -89,3 +89,5 @@ export function getContentType(): string {
 // use connection pooling for Redis pub/sub - revision 73
 
 // correct trade fee calculation - revision 117
+
+// extract queue message validators - revision 161
