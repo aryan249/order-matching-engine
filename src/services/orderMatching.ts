@@ -98,3 +98,5 @@ export class OrderMatchingService {
 // simplify queue consumer logic - revision 89
 
 // batch order status updates - revision 133
+
+// correct order fill quantity tracking - revision 177
