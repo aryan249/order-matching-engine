@@ -38,3 +38,39 @@ export class RedisQueue {
     return items.map((item) => JSON.parse(item));
   }
 
+  async length(asset: string): Promise<number> {
+    const redis = getRedisClient();
+    return redis.llen(this.getKey(asset));
+  }
+
+  async getAssets(): Promise<string[]> {
+    const redis = getRedisClient();
+    return redis.smembers(this.assetsKey);
+  }
+
+  async removeOrder(asset: string, orderId: string): Promise<void> {
+    const redis = getRedisClient();
+    const items = await redis.lrange(this.getKey(asset), 0, -1);
+    for (const item of items) {
+      const order: Order = JSON.parse(item);
+      if (order.id === orderId) {
+        await redis.lrem(this.getKey(asset), 1, item);
+        break;
+      }
+    }
+  }
+
+  async updateOrder(asset: string, updatedOrder: Order): Promise<void> {
+    const redis = getRedisClient();
+    const key = this.getKey(asset);
+    const items = await redis.lrange(key, 0, -1);
+
+    for (let i = 0; i < items.length; i++) {
+      const order: Order = JSON.parse(items[i]);
+      if (order.id === updatedOrder.id) {
+        await redis.lset(key, i, JSON.stringify(updatedOrder));
+        break;
+      }
+    }
+  }
+}
