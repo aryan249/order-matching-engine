@@ -1,0 +1,11 @@
+{
+  "name": "order-matching-engine",
+  "version": "0.1.0",
+  "description": "High-performance order matching engine",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC"
+}
