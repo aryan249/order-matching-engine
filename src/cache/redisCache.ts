@@ -37,3 +37,5 @@ export class RedisCache {
     } while (cursor !== '0');
   }
 }
+
+// simplify middleware chain composition - revision 16
