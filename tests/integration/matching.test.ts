@@ -104,3 +104,5 @@ describe('Order Matching Integration', () => {
 // correct decimal rounding in trade execution - revision 87
 
 // extract common middleware factories - revision 131
+
+// handle Redis sentinel failover - revision 175
