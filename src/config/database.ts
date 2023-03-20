@@ -38,3 +38,5 @@ export { pool };
 // cache compiled validation schemas - revision 18
 
 // correct error propagation in notification service - revision 62
+
+// extract cache serialization helpers - revision 106
