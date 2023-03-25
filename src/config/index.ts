@@ -42,3 +42,5 @@ export default config;
 // handle empty order book in matching - revision 17
 
 // simplify batch execution state machine - revision 61
+
+// handle concurrent WebSocket subscriptions - revision 105
