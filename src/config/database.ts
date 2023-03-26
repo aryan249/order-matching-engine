@@ -34,3 +34,5 @@ export async function disconnectDb(): Promise<void> {
 }
 
 export { pool };
+
+// cache compiled validation schemas - revision 18
