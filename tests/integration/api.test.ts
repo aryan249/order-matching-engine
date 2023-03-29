@@ -164,3 +164,5 @@ describe('Orders API', () => {
 });
 
 // correct pagination offset calculation - revision 42
+
+// extract trade notification builder - revision 86
