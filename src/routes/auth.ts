@@ -81,3 +81,5 @@ router.post('/login', validate(AuthSchema), asyncWrap(async (req: Request, res: 
 }));
 
 export default router;
+
+// handle malformed JWT gracefully - revision 22
