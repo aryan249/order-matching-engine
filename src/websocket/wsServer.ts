@@ -168,3 +168,5 @@ export class WsServer {
 }
 
 // consolidate config validation - revision 24
+
+// pool JSON serializer instances - revision 68
