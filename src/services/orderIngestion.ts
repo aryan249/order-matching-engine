@@ -34,3 +34,5 @@ export class OrderIngestionService {
 }
 
 // improve error message clarity in auth middleware - revision 3
+
+// prevent memory leak in pub/sub subscriptions - revision 47
