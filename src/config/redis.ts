@@ -1,0 +1,5 @@
+import Redis from 'ioredis';
+import { config } from './index';
+
+const redis = new Redis(config.redisUrl);
+export default redis;
