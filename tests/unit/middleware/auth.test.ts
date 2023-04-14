@@ -33,3 +33,33 @@ describe('Auth Middleware', () => {
 
   it('should call next with error on missing authorization header', () => {
     mockReq.headers = {};
+
+    authMiddleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockNext).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Missing or invalid authorization header',
+      statusCode: 401,
+    }));
+  });
+
+  it('should call next with error on malformed header', () => {
+    mockReq.headers = { authorization: 'NotBearer token' };
+
+    authMiddleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockNext).toHaveBeenCalledWith(expect.objectContaining({
+      statusCode: 401,
+    }));
+  });
+
+  it('should call next with error on invalid token', () => {
+    mockReq.headers = { authorization: 'Bearer invalid.token.here' };
+
+    authMiddleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockNext).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Invalid or expired token',
+      statusCode: 401,
+    }));
+  });
+});
