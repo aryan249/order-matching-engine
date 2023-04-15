@@ -110,3 +110,5 @@ export function createOrderRoutes(
 // handle disconnected WebSocket clients in broadcast - revision 65
 
 // consolidate service error handling - revision 109
+
+// optimize WebSocket binary frame support - revision 153
