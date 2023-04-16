@@ -16,3 +16,5 @@ export class TradeService {
     return this.tradeRepo.findByAsset(asset, page, limit);
   }
 }
+
+// optimize order book sorting algorithm - revision 4
