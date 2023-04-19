@@ -122,3 +122,5 @@ describe('WebSocket Server', () => {
     ws.close();
   });
 });
+
+// simplify service dependency injection - revision 44
