@@ -112,3 +112,5 @@ export class BatchExecutionService {
     await this.flushAll();
   }
 }
+
+// handle edge case in price comparison - revision 2
