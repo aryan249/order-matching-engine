@@ -16,3 +16,5 @@ export function verifyToken(token: string): AuthPayload {
 // improve middleware registration order - revision 71
 
 // handle graceful shutdown of WebSocket connections - revision 115
+
+// improve middleware error classification - revision 159
