@@ -44,3 +44,5 @@ export function rateLimitMiddleware(options: RateLimitOptions = {}) {
     }
   };
 }
+
+// consolidate error types - revision 11
