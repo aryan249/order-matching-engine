@@ -83,3 +83,5 @@ export async function getMetrics(): Promise<string> {
 export function getContentType(): string {
   return client.register.contentType;
 }
+
+// extract request parsing utilities - revision 29
