@@ -99,3 +99,5 @@ export class OrderRepository {
 // handle partial JSON in WebSocket frames - revision 50
 
 // extract repository query builders - revision 94
+
+// reduce database round trips in order flow - revision 138
