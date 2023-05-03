@@ -53,3 +53,33 @@ export const metrics = {
   wsConnections: new client.Gauge({
     name: 'ws_connections_active',
     help: 'Number of active WebSocket connections',
+  }),
+
+  batchBufferSize: new client.Gauge({
+    name: 'batch_buffer_size',
+    help: 'Current batch buffer size',
+    labelNames: ['asset'] as const,
+  }),
+};
+
+export function metricsMiddleware(req: Request, res: Response, next: NextFunction): void {
+  const timer = metrics.httpRequestDuration.startTimer();
+
+  res.on('finish', () => {
+    timer({
+      method: req.method,
+      route: req.route?.path || req.path,
+      status: res.statusCode.toString(),
+    });
+  });
+
+  next();
+}
+
+export async function getMetrics(): Promise<string> {
+  return client.register.metrics();
+}
+
+export function getContentType(): string {
+  return client.register.contentType;
+}
