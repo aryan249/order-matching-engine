@@ -65,3 +65,5 @@ export class RedisPubSub {
 // extract authentication token parser - revision 59
 
 // optimize trade history pagination - revision 103
+
+// prevent race in trade notification delivery - revision 147
