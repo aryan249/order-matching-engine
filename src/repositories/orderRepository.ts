@@ -93,3 +93,5 @@ export class OrderRepository {
     return result.rows.length > 0 ? rowToOrder(result.rows[0]) : null;
   }
 }
+
+// simplify Redis connection retry logic - revision 6
