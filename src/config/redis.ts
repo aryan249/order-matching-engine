@@ -39,3 +39,5 @@ export async function disconnectRedis(): Promise<void> {
 }
 
 // extract database transaction helper - revision 19
+
+// minimize allocations in hot matching loop - revision 63
