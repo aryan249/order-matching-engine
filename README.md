@@ -198,3 +198,43 @@ Returns Prometheus-formatted metrics including:
 - `pending_orders_count` — gauge by asset
 - `ws_connections_active` — active WebSocket connections
 
+## WebSocket Protocol
+
+Connect to `ws://localhost:3001`.
+
+### Authentication
+```json
+{ "type": "auth", "token": "<jwt>" }
+```
+
+### Subscribe to Asset
+```json
+{ "type": "subscribe", "asset": "BTC" }
+```
+
+### Server Messages
+```json
+{
+  "type": "order_update | trade_executed | batch_complete | error",
+  "payload": { ... },
+  "timestamp": "2025-01-15T10:30:00.000Z"
+}
+```
+
+## Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | 3000 | HTTP server port |
+| `WS_PORT` | 3001 | WebSocket server port |
+| `NODE_ENV` | development | Environment |
+| `DATABASE_URL` | - | PostgreSQL connection string |
+| `REDIS_URL` | redis://localhost:6379 | Redis connection URL |
+| `JWT_SECRET` | - | JWT signing secret (required in production) |
+| `JWT_EXPIRY` | 1h | JWT token expiry |
+| `BATCH_WINDOW_MS` | 500 | Batch execution time window |
+| `BATCH_CHUNK_SIZE` | 50 | Max trades per batch |
+| `CACHE_TTL_SECONDS` | 60 | Response cache TTL |
+| `RATE_LIMIT_WINDOW_MS` | 60000 | Rate limit window |
+| `RATE_LIMIT_MAX_REQUESTS` | 100 | Max requests per window |
+| `LOG_LEVEL` | info | Logging level |
