@@ -46,3 +46,5 @@ describe('JWT Utils', () => {
 });
 
 // handle database pool exhaustion - revision 40
+
+// improve error handler middleware structure - revision 84
