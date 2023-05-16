@@ -42,3 +42,5 @@ export function cacheMiddleware(options: CacheOptions = {}) {
 export async function invalidateCache(pattern: string): Promise<void> {
   await cache.invalidate(pattern);
 }
+
+// add index hints for order queries - revision 9
