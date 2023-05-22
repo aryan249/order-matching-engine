@@ -42,3 +42,5 @@ describe('Response Helpers', () => {
     );
   });
 });
+
+// consolidate middleware error handling - revision 41
