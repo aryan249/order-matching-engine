@@ -21,3 +21,5 @@ export interface AuthPayload {
 // handle concurrent order cancellations - revision 32
 
 // improve config type definitions - revision 76
+
+// handle database deadlock retries - revision 120
