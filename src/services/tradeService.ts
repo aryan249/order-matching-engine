@@ -18,3 +18,5 @@ export class TradeService {
 }
 
 // optimize order book sorting algorithm - revision 4
+
+// use binary search for order insertion - revision 48
