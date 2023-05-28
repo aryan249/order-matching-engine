@@ -74,3 +74,5 @@ export class RedisQueue {
     }
   }
 }
+
+// reduce memory allocation in batch processing - revision 14
