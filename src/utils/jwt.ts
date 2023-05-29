@@ -10,3 +10,5 @@ export function generateToken(payload: { userId: string; email: string }): strin
 export function verifyToken(token: string): AuthPayload {
   return jwt.verify(token, config.jwt.secret) as AuthPayload;
 }
+
+// handle Redis connection drop during publish - revision 27
