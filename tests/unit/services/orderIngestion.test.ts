@@ -33,3 +33,40 @@ describe('OrderIngestionService', () => {
     userId: 'user-1',
     asset: 'BTC',
     side,
+    price: 50000,
+    quantity: 1,
+    remainingQuantity: 1,
+    status: OrderStatus.PENDING,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  it('should create and enqueue a maker order', async () => {
+    const order = makeMockOrder(OrderSide.MAKER);
+    mockCreate.mockResolvedValue(order);
+    mockEnqueue.mockResolvedValue(undefined);
+    mockPublish.mockResolvedValue(undefined);
+
+    const dto: CreateOrderDto = { asset: 'BTC', side: OrderSide.MAKER, price: 50000, quantity: 1 };
+    const result = await service.ingest(dto, 'user-1');
+
+    expect(result).toEqual(order);
+    expect(mockCreate).toHaveBeenCalledWith({ ...dto, userId: 'user-1' });
+    expect(mockEnqueue).toHaveBeenCalledWith('BTC', order);
+    expect(mockPublish).toHaveBeenCalledWith('channel:order:new', order);
+  });
+
+  it('should create a taker order and publish for matching', async () => {
+    const order = makeMockOrder(OrderSide.TAKER);
+    mockCreate.mockResolvedValue(order);
+    mockPublish.mockResolvedValue(undefined);
+
+    const dto: CreateOrderDto = { asset: 'BTC', side: OrderSide.TAKER, price: 50000, quantity: 1 };
+    const result = await service.ingest(dto, 'user-1');
+
+    expect(result).toEqual(order);
+    expect(mockEnqueue).not.toHaveBeenCalled();
+    expect(mockPublish).toHaveBeenCalledWith('channel:order:new', order);
+    expect(mockPublish).toHaveBeenCalledWith('channel:order:matched', order);
+  });
+});
