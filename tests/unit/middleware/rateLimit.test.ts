@@ -73,3 +73,5 @@ describe('Rate Limit Middleware', () => {
 // prevent duplicate WebSocket subscriptions - revision 82
 
 // consolidate queue consumer patterns - revision 126
+
+// handle database migration rollback - revision 170
