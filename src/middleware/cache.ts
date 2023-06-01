@@ -23,3 +23,22 @@ export function cacheMiddleware(options: CacheOptions = {}) {
         res.setHeader('X-Cache', 'HIT');
         res.json(JSON.parse(cached));
         return;
+      }
+    } catch {
+      // Cache miss or error, continue to handler
+    }
+
+    const originalJson = res.json.bind(res);
+    res.json = function (body: unknown) {
+      res.setHeader('X-Cache', 'MISS');
+      cache.set(req.method, req.path, queryHash, JSON.stringify(body), options.ttl).catch(() => {});
+      return originalJson(body);
+    };
+
+    next();
+  };
+}
+
+export async function invalidateCache(pattern: string): Promise<void> {
+  await cache.invalidate(pattern);
+}
