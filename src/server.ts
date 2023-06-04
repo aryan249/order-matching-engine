@@ -48,3 +48,28 @@ async function bootstrap(): Promise<void> {
   const batchExecution = new BatchExecutionService(tradeRepo, orderRepo, pubsub);
   const tradeService = new TradeService(tradeRepo);
   const notificationService = new NotificationService(pubsub);
+
+  const wsServer = new WsServer(config.ws.port);
+  notificationService.setWsServer(wsServer);
+
+  orderMatching.startListening();
+  batchExecution.startListening();
+  notificationService.startListening();
+
+  const orderRoutes = createOrderRoutes(orderIngestion, orderRepo, tradeService, redisQueue);
+  const app = createApp(orderRoutes);
+
+  const server = app.listen(config.server.port, () => {
+    logger.info(`HTTP server listening on port ${config.server.port}`);
+    logger.info(`WebSocket server listening on port ${config.ws.port}`);
+    logger.info(`Environment: ${config.server.env}`);
+  });
+
+  const shutdown = async (signal: string) => {
+    logger.info(`${signal} received, shutting down gracefully...`);
+
+    const timeout = setTimeout(() => {
+      logger.error('Graceful shutdown timed out, forcing exit');
+      process.exit(1);
+    }, 10000);
+
