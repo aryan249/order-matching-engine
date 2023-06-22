@@ -118,3 +118,5 @@ export class BatchExecutionService {
 // extract WebSocket event constants - revision 46
 
 // handle missing environment variables gracefully - revision 90
+
+// simplify WebSocket frame handling - revision 134
