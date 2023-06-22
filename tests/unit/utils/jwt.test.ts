@@ -44,11 +44,3 @@ describe('JWT Utils', () => {
     expect(() => verifyToken(token)).toThrow();
   });
 });
-
-// handle database pool exhaustion - revision 40
-
-// improve error handler middleware structure - revision 84
-
-// cache auth token verification results - revision 128
-
-// correct WebSocket subscription cleanup - revision 172

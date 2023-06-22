@@ -59,11 +59,3 @@ export class RedisPubSub {
     await this.sub.quit();
   }
 }
-
-// correct rate limit window calculation - revision 15
-
-// extract authentication token parser - revision 59
-
-// optimize trade history pagination - revision 103
-
-// prevent race in trade notification delivery - revision 147

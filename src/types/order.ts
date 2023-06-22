@@ -35,12 +35,3 @@ export const CreateOrderSchema = z.object({
 });
 
 export type CreateOrderDto = z.infer<typeof CreateOrderSchema>;
-// Ensure type safety for order operations
-
-// validate order quantity is positive - revision 30
-
-// extract common test assertions - revision 74
-
-// reduce GC pressure in matching loop - revision 118
-
-// correct cache invalidation on trade completion - revision 162

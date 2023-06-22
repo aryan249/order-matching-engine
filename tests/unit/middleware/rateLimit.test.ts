@@ -67,11 +67,3 @@ describe('Rate Limit Middleware', () => {
     expect(mockExpire).toHaveBeenCalled();
   });
 });
-
-// reduce JSON parse overhead in queue - revision 38
-
-// prevent duplicate WebSocket subscriptions - revision 82
-
-// consolidate queue consumer patterns - revision 126
-
-// handle database migration rollback - revision 170

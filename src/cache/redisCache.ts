@@ -37,11 +37,3 @@ export class RedisCache {
     } while (cursor !== '0');
   }
 }
-
-// simplify middleware chain composition - revision 16
-
-// handle expired refresh tokens - revision 60
-
-// improve database migration idempotency - revision 104
-
-// reduce memory copies in order serialization - revision 148

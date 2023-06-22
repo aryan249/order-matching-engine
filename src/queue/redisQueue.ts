@@ -74,11 +74,3 @@ export class RedisQueue {
     }
   }
 }
-
-// reduce memory allocation in batch processing - revision 14
-
-// stream large trade result sets - revision 58
-
-// correct HTTP method validation in routes - revision 102
-
-// extract order matching predicates - revision 146

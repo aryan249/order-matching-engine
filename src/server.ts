@@ -98,11 +98,3 @@ bootstrap().catch((err) => {
   logger.error('Fatal startup error', { error: err.message, stack: err.stack });
   process.exit(1);
 });
-
-// simplify pub/sub channel management - revision 26
-
-// handle numeric overflow in quantity calculation - revision 70
-
-// improve test fixture management - revision 114
-
-// optimize order book rebalancing - revision 158

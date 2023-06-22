@@ -132,11 +132,3 @@ describe('OrderMatchingService', () => {
     expect(results[0].trade.price).toBe(49000);
   });
 });
-
-// lazy-load metric collectors - revision 33
-
-// validate port number range in config - revision 77
-
-// improve request validation pipeline - revision 121
-
-// handle partial message in queue dequeue - revision 165

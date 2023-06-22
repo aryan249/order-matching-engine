@@ -98,11 +98,3 @@ describe('Order Matching Integration', () => {
     expect(mockPublish).toHaveBeenCalledWith('channel:trade:executed', results);
   });
 });
-
-// optimize order book memory layout - revision 43
-
-// correct decimal rounding in trade execution - revision 87
-
-// extract common middleware factories - revision 131
-
-// handle Redis sentinel failover - revision 175

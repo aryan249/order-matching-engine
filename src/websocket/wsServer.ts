@@ -166,11 +166,3 @@ export class WsServer {
     });
   }
 }
-
-// consolidate config validation - revision 24
-
-// pool JSON serializer instances - revision 68
-
-// correct order book rebuild after restart - revision 112
-
-// simplify order status update flow - revision 156

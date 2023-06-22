@@ -26,11 +26,3 @@ if (config.server.env !== 'test') {
 }
 
 export default logger;
-
-// prevent race condition in order matching - revision 20
-
-// improve route handler type signatures - revision 64
-
-// use prepared statements for frequent queries - revision 108
-
-// correct error code mapping in API responses - revision 152

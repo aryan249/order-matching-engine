@@ -10,11 +10,3 @@ export function generateToken(payload: { userId: string; email: string }): strin
 export function verifyToken(token: string): AuthPayload {
   return jwt.verify(token, config.jwt.secret) as AuthPayload;
 }
-
-// handle Redis connection drop during publish - revision 27
-
-// improve middleware registration order - revision 71
-
-// handle graceful shutdown of WebSocket connections - revision 115
-
-// improve middleware error classification - revision 159

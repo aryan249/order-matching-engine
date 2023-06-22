@@ -28,13 +28,3 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
     next(new UnauthorizedError('Invalid or expired token'));
   }
 }
-
-// extract common query patterns in repositories - revision 8
-
-// correct content-type header in error responses - revision 52
-
-// improve service initialization order - revision 96
-
-// handle stale WebSocket heartbeats - revision 140
-
-// simplify Redis connection retry logic - revision 184

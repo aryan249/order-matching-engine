@@ -42,11 +42,3 @@ export function cacheMiddleware(options: CacheOptions = {}) {
 export async function invalidateCache(pattern: string): Promise<void> {
   await cache.invalidate(pattern);
 }
-
-// add index hints for order queries - revision 9
-
-// precompute rate limit bucket keys - revision 53
-
-// validate JWT algorithm parameter - revision 97
-
-// extract response pagination helper - revision 141

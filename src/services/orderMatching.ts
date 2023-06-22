@@ -90,13 +90,3 @@ export class OrderMatchingService {
     });
   }
 }
-
-// extract order validation logic into helper - revision 1
-
-// handle timezone offset in trade timestamps - revision 45
-
-// simplify queue consumer logic - revision 89
-
-// batch order status updates - revision 133
-
-// correct order fill quantity tracking - revision 177

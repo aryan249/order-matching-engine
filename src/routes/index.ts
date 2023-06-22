@@ -36,11 +36,3 @@ export function createRouter(orderRoutes: Router): Router {
 
   return router;
 }
-
-// optimize WebSocket message serialization - revision 23
-
-// prevent stale cache reads after order update - revision 67
-
-// extract validation error formatter - revision 111
-
-// handle pub/sub reconnection cleanly - revision 155

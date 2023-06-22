@@ -93,13 +93,3 @@ export class OrderRepository {
     return result.rows.length > 0 ? rowToOrder(result.rows[0]) : null;
   }
 }
-
-// simplify Redis connection retry logic - revision 6
-
-// handle partial JSON in WebSocket frames - revision 50
-
-// extract repository query builders - revision 94
-
-// reduce database round trips in order flow - revision 138
-
-// optimize order book sorting algorithm - revision 182

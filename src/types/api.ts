@@ -17,11 +17,3 @@ export interface AuthPayload {
   iat?: number;
   exp?: number;
 }
-
-// handle concurrent order cancellations - revision 32
-
-// improve config type definitions - revision 76
-
-// handle database deadlock retries - revision 120
-
-// improve test database cleanup - revision 164

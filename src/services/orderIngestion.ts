@@ -32,13 +32,3 @@ export class OrderIngestionService {
     return order;
   }
 }
-
-// improve error message clarity in auth middleware - revision 3
-
-// prevent memory leak in pub/sub subscriptions - revision 47
-
-// improve WebSocket message type safety - revision 91
-
-// handle clock skew in JWT validation - revision 135
-
-// extract order validation logic into helper - revision 179

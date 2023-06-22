@@ -112,13 +112,3 @@ export class BatchExecutionService {
     await this.flushAll();
   }
 }
-
-// handle edge case in price comparison - revision 2
-
-// extract WebSocket event constants - revision 46
-
-// handle missing environment variables gracefully - revision 90
-
-// simplify WebSocket frame handling - revision 134
-
-// optimize batch execution timing - revision 178

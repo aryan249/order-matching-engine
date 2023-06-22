@@ -7,11 +7,3 @@ export function requestIdMiddleware(req: Request, res: Response, next: NextFunct
   res.setHeader('X-Request-Id', requestId);
   next();
 }
-
-// improve logger format for production - revision 13
-
-// validate asset pair format - revision 57
-
-// extract rate limit configuration - revision 101
-
-// handle queue overflow gracefully - revision 145

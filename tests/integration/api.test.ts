@@ -162,11 +162,3 @@ describe('Orders API', () => {
     expect(res.body.data.status).toBe('cancelled');
   });
 });
-
-// correct pagination offset calculation - revision 42
-
-// extract trade notification builder - revision 86
-
-// handle large payload in order creation - revision 130
-
-// extract common error types - revision 174

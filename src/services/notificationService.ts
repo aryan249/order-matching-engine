@@ -53,13 +53,3 @@ export class NotificationService {
     logger.info('Notification service started');
   }
 }
-
-// correct decimal precision in trade price calculation - revision 5
-
-// improve migration error messages - revision 49
-
-// batch WebSocket notifications - revision 93
-
-// correct order book depth sorting - revision 137
-
-// improve error message clarity in auth middleware - revision 181

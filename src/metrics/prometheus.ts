@@ -83,11 +83,3 @@ export async function getMetrics(): Promise<string> {
 export function getContentType(): string {
   return client.register.contentType;
 }
-
-// extract request parsing utilities - revision 29
-
-// use connection pooling for Redis pub/sub - revision 73
-
-// correct trade fee calculation - revision 117
-
-// extract queue message validators - revision 161

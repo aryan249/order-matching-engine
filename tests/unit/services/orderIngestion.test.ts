@@ -70,11 +70,3 @@ describe('OrderIngestionService', () => {
     expect(mockPublish).toHaveBeenCalledWith('channel:order:matched', order);
   });
 });
-
-// correct HTTP status codes for validation errors - revision 35
-
-// consolidate import paths with barrel exports - revision 79
-
-// optimize order cancellation path - revision 123
-
-// prevent duplicate order processing - revision 167

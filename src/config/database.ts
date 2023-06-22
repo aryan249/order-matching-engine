@@ -34,11 +34,3 @@ export async function disconnectDb(): Promise<void> {
 }
 
 export { pool };
-
-// cache compiled validation schemas - revision 18
-
-// correct error propagation in notification service - revision 62
-
-// extract cache serialization helpers - revision 106
-
-// handle malformed request body gracefully - revision 150

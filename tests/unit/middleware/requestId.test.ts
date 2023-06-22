@@ -31,11 +31,3 @@ describe('RequestId Middleware', () => {
     expect(mockRes.setHeader).toHaveBeenCalledWith('X-Request-Id', 'existing-id');
   });
 });
-
-// improve test helper readability - revision 39
-
-// optimize cache TTL management - revision 83
-
-// prevent orphaned trades on order cancel - revision 127
-
-// improve order repository pagination - revision 171

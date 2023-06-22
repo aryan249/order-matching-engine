@@ -122,11 +122,3 @@ describe('WebSocket Server', () => {
     ws.close();
   });
 });
-
-// simplify service dependency injection - revision 44
-
-// reduce lock contention in order book - revision 88
-
-// correct Redis key expiration timing - revision 132
-
-// simplify notification dispatch logic - revision 176
