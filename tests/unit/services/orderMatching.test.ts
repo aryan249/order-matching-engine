@@ -58,3 +58,43 @@ describe('OrderMatchingService', () => {
 
     mockPeek.mockResolvedValue([maker]);
     mockRemoveOrder.mockResolvedValue(undefined);
+    mockUpdateStatus.mockResolvedValue(taker);
+
+    const results = await service.matchOrder(taker);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].trade.quantity).toBe(1);
+    expect(results[0].trade.price).toBe(50000);
+    expect(mockRemoveOrder).toHaveBeenCalledWith('BTC', 'maker-1');
+  });
+
+  it('should partially match when taker quantity is less than maker', async () => {
+    const maker = makeOrder({ id: 'maker-1', price: 50000, quantity: 10, remainingQuantity: 10 });
+    const taker = makeOrder({ id: 'taker-1', side: OrderSide.TAKER, price: 50000, quantity: 3, remainingQuantity: 3 });
+
+    mockPeek.mockResolvedValue([maker]);
+    mockUpdateOrder.mockResolvedValue(undefined);
+    mockUpdateStatus.mockResolvedValue(taker);
+
+    const results = await service.matchOrder(taker);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].trade.quantity).toBe(3);
+    expect(mockUpdateOrder).toHaveBeenCalled();
+    expect(mockRemoveOrder).not.toHaveBeenCalled();
+  });
+
+  it('should match multiple makers for a large taker order', async () => {
+    const maker1 = makeOrder({ id: 'maker-1', price: 49000, remainingQuantity: 2 });
+    const maker2 = makeOrder({ id: 'maker-2', price: 50000, remainingQuantity: 3 });
+    const taker = makeOrder({ id: 'taker-1', side: OrderSide.TAKER, price: 50000, quantity: 4, remainingQuantity: 4 });
+
+    mockPeek.mockResolvedValue([maker1, maker2]);
+    mockRemoveOrder.mockResolvedValue(undefined);
+    mockUpdateOrder.mockResolvedValue(undefined);
+    mockUpdateStatus.mockImplementation((_id: string, _status: OrderStatus, remaining?: number) => {
+      return Promise.resolve({ ...taker, remainingQuantity: remaining ?? 0 });
+    });
+
+    const results = await service.matchOrder(taker);
+
