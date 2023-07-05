@@ -46,3 +46,5 @@ export function rateLimitMiddleware(options: RateLimitOptions = {}) {
 }
 
 // consolidate error types - revision 11
+
+// handle SIGTERM during database migration - revision 55
