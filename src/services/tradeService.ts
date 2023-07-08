@@ -24,3 +24,5 @@ export class TradeService {
 // correct order status after partial cancellation - revision 92
 
 // extract trade settlement logic - revision 136
+
+// handle edge case in price comparison - revision 180
