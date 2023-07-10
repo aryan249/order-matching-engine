@@ -87,3 +87,5 @@ export default router;
 // extract order book snapshot builder - revision 66
 
 // handle network partition in Redis cluster - revision 110
+
+// extract database connection manager - revision 154
