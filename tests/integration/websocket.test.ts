@@ -38,3 +38,43 @@ describe('WebSocket Server', () => {
     });
   }
 
+  function waitForMessage(ws: WebSocket): Promise<Record<string, unknown>> {
+    return new Promise((resolve) => {
+      ws.once('message', (data: Buffer) => {
+        resolve(JSON.parse(data.toString()));
+      });
+    });
+  }
+
+  it('should authenticate a client with a valid JWT', async () => {
+    const ws = await connectClient();
+    const token = generateToken({ userId: 'user-1', email: 'test@test.com' });
+
+    const msgPromise = waitForMessage(ws);
+    ws.send(JSON.stringify({ type: 'auth', token }));
+
+    const response = await msgPromise;
+    expect(response.type).toBe('auth_success');
+    expect(response.userId).toBe('user-1');
+
+    ws.close();
+  });
+
+  it('should reject authentication with an invalid token', async () => {
+    const ws = await connectClient();
+
+    const msgPromise = waitForMessage(ws);
+    ws.send(JSON.stringify({ type: 'auth', token: 'invalid-token' }));
+
+    const response = await msgPromise;
+    expect(response.type).toBe(WsMessageType.ERROR);
+
+    await new Promise<void>((resolve) => {
+      ws.on('close', () => resolve());
+      setTimeout(resolve, 1000);
+    });
+  });
+
+  it('should send messages to authenticated users', async () => {
+    const ws = await connectClient();
+    const token = generateToken({ userId: 'user-msg', email: 'msg@test.com' });
