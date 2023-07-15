@@ -100,3 +100,5 @@ describe('Order Matching Integration', () => {
 });
 
 // optimize order book memory layout - revision 43
+
+// correct decimal rounding in trade execution - revision 87
