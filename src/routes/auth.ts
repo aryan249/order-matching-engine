@@ -43,3 +43,41 @@ router.post('/register', validate(AuthSchema), asyncWrap(async (req: Request, re
   res.status(201).json({
     success: true,
     data: { token, userId: user.id, email: user.email },
+    timestamp: new Date().toISOString(),
+  });
+}));
+
+router.post('/login', validate(AuthSchema), asyncWrap(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const result = await query('SELECT id, email, password_hash FROM users WHERE email = $1', [email]);
+  if (result.rows.length === 0) {
+    res.status(401).json({
+      success: false,
+      error: 'Invalid credentials',
+      timestamp: new Date().toISOString(),
+    });
+    return;
+  }
+
+  const user = result.rows[0];
+  const valid = await bcrypt.compare(password, user.password_hash);
+  if (!valid) {
+    res.status(401).json({
+      success: false,
+      error: 'Invalid credentials',
+      timestamp: new Date().toISOString(),
+    });
+    return;
+  }
+
+  const token = generateToken({ userId: user.id, email: user.email });
+
+  res.json({
+    success: true,
+    data: { token, userId: user.id, email: user.email },
+    timestamp: new Date().toISOString(),
+  });
+}));
+
+export default router;
