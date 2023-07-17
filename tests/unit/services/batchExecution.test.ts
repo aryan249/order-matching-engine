@@ -78,3 +78,60 @@ describe('BatchExecutionService', () => {
         remainingQuantity: 0,
         status: OrderStatus.MATCHED,
         createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      takerOrder: {
+        id: `taker-${id}`,
+        userId: 'user-2',
+        asset: 'BTC',
+        side: OrderSide.TAKER,
+        price: 50000,
+        quantity: 1,
+        remainingQuantity: 0,
+        status: OrderStatus.MATCHED,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    };
+  }
+
+  it('should flush after the time window', async () => {
+    service.addTrade(makeTradeResult('1'));
+    service.addTrade(makeTradeResult('2'));
+
+    expect(mockBatchCreate).not.toHaveBeenCalled();
+
+    jest.advanceTimersByTime(500);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockQuery).toHaveBeenCalledWith('BEGIN');
+    expect(mockBatchCreate).toHaveBeenCalled();
+  });
+
+  it('should flush immediately when chunk size is reached', async () => {
+    service.addTrade(makeTradeResult('1'));
+    service.addTrade(makeTradeResult('2'));
+    service.addTrade(makeTradeResult('3'));
+
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockBatchCreate).toHaveBeenCalled();
+  });
+
+  it('should group trades by asset', () => {
+    const btcTrade = makeTradeResult('1');
+    const ethTrade = makeTradeResult('2');
+    ethTrade.trade.asset = 'ETH';
+    ethTrade.makerOrder.asset = 'ETH';
+    ethTrade.takerOrder.asset = 'ETH';
+
+    service.addTrade(btcTrade);
+    service.addTrade(ethTrade);
+
+    // Both should be buffered separately - no flush yet since neither reached chunk size
+    expect(mockBatchCreate).not.toHaveBeenCalled();
+  });
+});
