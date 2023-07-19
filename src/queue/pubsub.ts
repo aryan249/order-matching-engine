@@ -33,3 +33,29 @@ export class RedisPubSub {
     });
   }
 
+  async publish(channel: string, message: object): Promise<void> {
+    await this.pub.publish(channel, JSON.stringify(message));
+    logger.debug('Published message', { channel });
+  }
+
+  async subscribe(channel: string, handler: MessageHandler): Promise<void> {
+    const existing = this.handlers.get(channel);
+    if (existing) {
+      existing.push(handler);
+    } else {
+      this.handlers.set(channel, [handler]);
+      await this.sub.subscribe(channel);
+    }
+    logger.info('Subscribed to channel', { channel });
+  }
+
+  async unsubscribe(channel: string): Promise<void> {
+    this.handlers.delete(channel);
+    await this.sub.unsubscribe(channel);
+  }
+
+  async disconnect(): Promise<void> {
+    await this.pub.quit();
+    await this.sub.quit();
+  }
+}
