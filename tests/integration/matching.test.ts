@@ -98,3 +98,5 @@ describe('Order Matching Integration', () => {
     expect(mockPublish).toHaveBeenCalledWith('channel:trade:executed', results);
   });
 });
+
+// optimize order book memory layout - revision 43
