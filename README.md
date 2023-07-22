@@ -1,15 +1,60 @@
 # Order Matching Engine
 
-A high-performance order matching engine built with TypeScript, Express, PostgreSQL, and Redis.
+Production-grade order matching engine in TypeScript with maker/taker classification, Redis pub-sub architecture, batch execution, and real-time WebSocket updates.
 
-## Overview
+## Architecture
 
-This engine supports limit and market orders with price-time priority matching.
-
-## Getting Started
-
-```bash
-npm install
-npm run build
-npm start
 ```
+┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌─────────────��┐
+│  REST API │───▶│    Order     │───▶│    Order     │──��▶│    Batch     │───▶│  WebSocket   │
+│  Server   │    │  Ingestion   │    │   Matching   │    │  Execution   │    │ Notification │
+└─────┬────┘    └──────┬───────┘    └──────┬───────┘    ��──────┬─────��─┘    └─────���┬───────┘
+      │                │                   │                   │                   │
+      │                └───────────────────┴───────────────────┴────────��──────────┘
+      │                                    │
+      │                          ┌───��─────┴─────────┐
+      │                          │    Redis           ���
+      │                          │  Queue / PubSub /  │
+      │                          │  Cache / RateLimit │
+      │                          └───────────────────┘
+      │
+      │                          ┌───────────────────┐
+      └─────────────────────────▶│   PostgreSQL      │
+                                 │  Persistent Store  │
+                                 └───────────────────┘
+```
+
+### Data Flow
+
+1. **API Server** — Express REST API with JWT auth, rate limiting, and response caching
+2. **Order Ingestion** — Validates orders, persists to PostgreSQL, enqueues makers to Redis, publishes events
+3. **Order Matching** — Listens for taker orders via pub/sub, matches against queued makers by price priority
+4. **Batch Execution** — Buffers matched trades, flushes every 500ms or at 50 trades (whichever comes first)
+5. **WebSocket Notification** — Pushes real-time order/trade updates to connected clients
+
+All components communicate via Redis pub/sub channels, enabling horizontal scaling.
+
+## Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| **One Redis queue per asset** | Partition parallelism — assets matched independently without contention |
+| **Takers skip the queue** | Sell-side liquidity (makers) waits; buy-side demand (takers) triggers immediate matching |
+| **Batch execution with dual threshold** | 500ms window caps latency; chunk size 50 amortizes DB writes under load |
+| **Redis pub/sub event bus** | Decouples all 5 components — each can run as a separate process/server |
+| **Sliding window rate limiting** | Redis INCR + EXPIRE provides fair, distributed rate limiting |
+| **JWT over API keys** | Stateless auth with configurable expiry, no server-side session storage |
+| **Optimistic concurrency** | Order status updates check `updated_at` to prevent lost updates across servers |
+
+## Tech Stack
+
+- **Runtime**: Node.js 20+, TypeScript 5
+- **HTTP**: Express with Helmet, CORS
+- **Database**: PostgreSQL 15 (pg driver)
+- **Cache/Queue**: Redis 7 (ioredis)
+- **WebSocket**: ws
+- **Auth**: jsonwebtoken + bcrypt
+- **Validation**: Zod
+- **Metrics**: prom-client (Prometheus)
+- **Logging**: Winston
+- **Testing**: Jest + Supertest
