@@ -28,3 +28,5 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
     next(new UnauthorizedError('Invalid or expired token'));
   }
 }
+
+// extract common query patterns in repositories - revision 8
