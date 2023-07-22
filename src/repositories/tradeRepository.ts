@@ -38,3 +38,34 @@ export class TradeRepository {
         asset,
         limit,
         offset,
+      ]),
+      query('SELECT COUNT(*) as total FROM trades WHERE asset = $1', [asset]),
+    ]);
+
+    return {
+      trades: dataResult.rows.map(rowToTrade),
+      total: parseInt(countResult.rows[0].total as string, 10),
+    };
+  }
+
+  async batchCreate(trades: Omit<Trade, 'id' | 'executedAt'>[]): Promise<Trade[]> {
+    if (trades.length === 0) return [];
+
+    const values: unknown[] = [];
+    const placeholders: string[] = [];
+
+    trades.forEach((trade, i) => {
+      const offset = i * 5;
+      placeholders.push(`($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5})`);
+      values.push(trade.makerOrderId, trade.takerOrderId, trade.asset, trade.price, trade.quantity);
+    });
+
+    const result = await query(
+      `INSERT INTO trades (maker_order_id, taker_order_id, asset, price, quantity)
+       VALUES ${placeholders.join(', ')} RETURNING *`,
+      values
+    );
+
+    return result.rows.map(rowToTrade);
+  }
+}
