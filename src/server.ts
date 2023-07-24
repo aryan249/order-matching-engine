@@ -73,3 +73,28 @@ async function bootstrap(): Promise<void> {
       process.exit(1);
     }, 10000);
 
+    try {
+      await batchExecution.stop();
+      server.close();
+      await wsServer.close();
+      await pubsub.disconnect();
+      await disconnectRedis();
+      await disconnectDb();
+      clearTimeout(timeout);
+      logger.info('Graceful shutdown complete');
+      process.exit(0);
+    } catch (err) {
+      logger.error('Error during shutdown', { error: (err as Error).message });
+      clearTimeout(timeout);
+      process.exit(1);
+    }
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
+}
+
+bootstrap().catch((err) => {
+  logger.error('Fatal startup error', { error: err.message, stack: err.stack });
+  process.exit(1);
+});
