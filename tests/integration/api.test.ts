@@ -168,3 +168,5 @@ describe('Orders API', () => {
 // extract trade notification builder - revision 86
 
 // handle large payload in order creation - revision 130
+
+// extract common error types - revision 174
