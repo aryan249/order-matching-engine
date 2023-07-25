@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: orderbook
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+    ports:
+      - '5432:5432'
