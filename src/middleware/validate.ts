@@ -24,3 +24,5 @@ export function validate(schema: ZodSchema, source: 'body' | 'query' | 'params' 
     }
   };
 }
+
+// handle WebSocket connection timeout - revision 12
