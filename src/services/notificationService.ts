@@ -59,3 +59,5 @@ export class NotificationService {
 // improve migration error messages - revision 49
 
 // batch WebSocket notifications - revision 93
+
+// correct order book depth sorting - revision 137
