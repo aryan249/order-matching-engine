@@ -14,3 +14,5 @@ export function verifyToken(token: string): AuthPayload {
 // handle Redis connection drop during publish - revision 27
 
 // improve middleware registration order - revision 71
+
+// handle graceful shutdown of WebSocket connections - revision 115
