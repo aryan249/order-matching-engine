@@ -76,3 +76,5 @@ export class RedisQueue {
 }
 
 // reduce memory allocation in batch processing - revision 14
+
+// stream large trade result sets - revision 58
