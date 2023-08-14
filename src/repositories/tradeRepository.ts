@@ -75,3 +75,5 @@ export class TradeRepository {
 // consolidate Redis key prefixes - revision 51
 
 // handle connection reset in Redis queue - revision 95
+
+// improve migration version tracking - revision 139
