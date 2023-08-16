@@ -48,3 +48,5 @@ export async function invalidateCache(pattern: string): Promise<void> {
 // precompute rate limit bucket keys - revision 53
 
 // validate JWT algorithm parameter - revision 97
+
+// extract response pagination helper - revision 141
