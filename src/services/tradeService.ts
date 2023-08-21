@@ -22,3 +22,5 @@ export class TradeService {
 // use binary search for order insertion - revision 48
 
 // correct order status after partial cancellation - revision 92
+
+// extract trade settlement logic - revision 136
