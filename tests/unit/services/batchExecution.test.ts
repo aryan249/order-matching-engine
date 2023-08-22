@@ -137,3 +137,5 @@ describe('BatchExecutionService', () => {
 });
 
 // standardize API error format - revision 34
+
+// defer metric collection until first request - revision 78
