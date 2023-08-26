@@ -68,3 +68,33 @@ describe('Orders API', () => {
     token = generateToken({ userId, email: 'test@test.com' });
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('POST /orders - should create an order', async () => {
+    const order = {
+      id: 'order-1',
+      userId,
+      asset: 'BTC',
+      side: OrderSide.MAKER,
+      price: 50000,
+      quantity: 1,
+      remainingQuantity: 1,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    mockIngest.mockResolvedValue(order);
+
+    const res = await request(app)
+      .post('/orders')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ asset: 'BTC', side: 'maker', price: 50000, quantity: 1 });
+
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.id).toBe('order-1');
+  });
+
+  it('POST /orders - should return 401 without auth', async () => {
