@@ -38,3 +38,50 @@ describe('Cache Middleware', () => {
     jest.clearAllMocks();
     mockReq = { method: 'GET', path: '/orders', query: {} };
     mockRes = {
+      setHeader: jest.fn(),
+      json: jest.fn(),
+    };
+    mockNext = jest.fn();
+  });
+
+  it('should return cached response on HIT', async () => {
+    const cachedData = JSON.stringify({ success: true, data: [] });
+    mockGet.mockResolvedValue(cachedData);
+
+    const middleware = cacheMiddleware();
+    await middleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockRes.setHeader).toHaveBeenCalledWith('X-Cache', 'HIT');
+    expect(mockRes.json).toHaveBeenCalledWith(JSON.parse(cachedData));
+    expect(mockNext).not.toHaveBeenCalled();
+  });
+
+  it('should call next on cache MISS', async () => {
+    mockGet.mockResolvedValue(null);
+
+    const middleware = cacheMiddleware();
+    await middleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockNext).toHaveBeenCalled();
+  });
+
+  it('should skip caching for non-GET requests', async () => {
+    mockReq.method = 'POST';
+
+    const middleware = cacheMiddleware();
+    await middleware(mockReq as Request, mockRes as Response, mockNext);
+
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockGet).not.toHaveBeenCalled();
+  });
+
+  it('should invalidate cache by pattern', async () => {
+    mockScan.mockResolvedValue(['0', ['cache:GET:/orders:abc']]);
+    mockDel.mockResolvedValue(1);
+
+    await invalidateCache('GET:/orders*');
+
+    expect(mockScan).toHaveBeenCalled();
+    expect(mockDel).toHaveBeenCalledWith('cache:GET:/orders:abc');
+  });
+});
