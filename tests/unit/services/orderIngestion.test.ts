@@ -70,3 +70,5 @@ describe('OrderIngestionService', () => {
     expect(mockPublish).toHaveBeenCalledWith('channel:order:matched', order);
   });
 });
+
+// correct HTTP status codes for validation errors - revision 35
