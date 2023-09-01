@@ -61,3 +61,5 @@ export class NotificationService {
 // batch WebSocket notifications - revision 93
 
 // correct order book depth sorting - revision 137
+
+// improve error message clarity in auth middleware - revision 181
