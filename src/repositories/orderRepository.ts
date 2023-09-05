@@ -48,3 +48,28 @@ export class OrderRepository {
 
       if (remainingQuantity !== undefined) {
         fields.push(`remaining_quantity = $${params.length + 1}`);
+        params.push(remainingQuantity);
+      }
+
+      const result = await client.query(
+        `UPDATE orders SET ${fields.join(', ')} WHERE id = $1 RETURNING *`,
+        params
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error(`Order ${id} not found`);
+      }
+
+      return rowToOrder(result.rows[0]);
+    } finally {
+      client.release();
+    }
+  }
+
+  async findByUserId(userId: string, page: number, limit: number): Promise<{ orders: Order[]; total: number }> {
+    const offset = (page - 1) * limit;
+    const [dataResult, countResult] = await Promise.all([
+      query('SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3', [
+        userId,
+        limit,
+        offset,
