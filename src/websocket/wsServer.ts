@@ -98,3 +98,43 @@ export class WsServer {
 
     if (message.type === 'unsubscribe' && message.asset) {
       const subscribers = this.assetSubscriptions.get(message.asset);
+      if (subscribers) {
+        subscribers.delete(ws.userId);
+      }
+    }
+  }
+
+  private removeConnection(ws: AuthenticatedSocket): void {
+    if (ws.userId) {
+      const connections = this.userConnections.get(ws.userId);
+      if (connections) {
+        connections.delete(ws);
+        if (connections.size === 0) {
+          this.userConnections.delete(ws.userId);
+          this.assetSubscriptions.forEach((subscribers) => {
+            subscribers.delete(ws.userId!);
+          });
+        }
+      }
+    }
+  }
+
+  sendToUser(userId: string, message: WsMessage): void {
+    const connections = this.userConnections.get(userId);
+    if (connections) {
+      const data = JSON.stringify(message);
+      connections.forEach((ws) => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(data);
+        }
+      });
+    }
+  }
+
+  broadcastToAsset(asset: string, message: WsMessage): void {
+    const subscribers = this.assetSubscriptions.get(asset);
+    if (!subscribers) return;
+
+    const data = JSON.stringify(message);
+    subscribers.forEach((userId) => {
+      const connections = this.userConnections.get(userId);
