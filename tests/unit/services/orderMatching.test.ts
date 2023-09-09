@@ -98,3 +98,37 @@ describe('OrderMatchingService', () => {
 
     const results = await service.matchOrder(taker);
 
+    expect(results).toHaveLength(2);
+    expect(results[0].trade.quantity).toBe(2);
+    expect(results[0].trade.price).toBe(49000);
+    expect(results[1].trade.quantity).toBe(2);
+    expect(results[1].trade.price).toBe(50000);
+  });
+
+  it('should not match when maker price exceeds taker price', async () => {
+    const maker = makeOrder({ id: 'maker-1', price: 55000 });
+    const taker = makeOrder({ id: 'taker-1', side: OrderSide.TAKER, price: 50000 });
+
+    mockPeek.mockResolvedValue([maker]);
+
+    const results = await service.matchOrder(taker);
+
+    expect(results).toHaveLength(0);
+    expect(mockPublish).not.toHaveBeenCalled();
+  });
+
+  it('should prioritize cheaper makers first', async () => {
+    const maker1 = makeOrder({ id: 'maker-1', price: 51000, remainingQuantity: 1 });
+    const maker2 = makeOrder({ id: 'maker-2', price: 49000, remainingQuantity: 1 });
+    const taker = makeOrder({ id: 'taker-1', side: OrderSide.TAKER, price: 52000, quantity: 1, remainingQuantity: 1 });
+
+    mockPeek.mockResolvedValue([maker1, maker2]);
+    mockRemoveOrder.mockResolvedValue(undefined);
+    mockUpdateStatus.mockResolvedValue(taker);
+
+    const results = await service.matchOrder(taker);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].trade.price).toBe(49000);
+  });
+});
