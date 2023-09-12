@@ -34,3 +34,5 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
 // correct content-type header in error responses - revision 52
 
 // improve service initialization order - revision 96
+
+// handle stale WebSocket heartbeats - revision 140
