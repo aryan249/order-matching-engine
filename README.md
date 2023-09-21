@@ -238,3 +238,38 @@ Connect to `ws://localhost:3001`.
 | `RATE_LIMIT_WINDOW_MS` | 60000 | Rate limit window |
 | `RATE_LIMIT_MAX_REQUESTS` | 100 | Max requests per window |
 | `LOG_LEVEL` | info | Logging level |
+
+## Testing
+
+```bash
+# All tests
+npm test
+
+# Unit tests only
+npm run test:unit
+
+# Integration tests (requires Redis + PostgreSQL)
+npm run test:integration
+
+# With coverage
+npm test -- --coverage
+```
+
+## Target Performance
+
+| Metric | Target |
+|--------|--------|
+| API response time | < 200ms |
+| Throughput | 50 orders/sec |
+| Matching latency | < 50ms |
+| Batch flush | every 500ms or 50 trades |
+
+## Project Structure
+
+```
+src/
+├── config/          # App config, Redis, PostgreSQL, Winston logger
+��── types/           # TypeScript interfaces and Zod schemas
+├── middleware/       # Auth, rate limiting, caching, validation, errors
+├── routes/          # Express route handlers
+├── services/        # Core business logic (5 pipeline components)
