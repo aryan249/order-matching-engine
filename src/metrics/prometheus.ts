@@ -87,3 +87,5 @@ export function getContentType(): string {
 // extract request parsing utilities - revision 29
 
 // use connection pooling for Redis pub/sub - revision 73
+
+// correct trade fee calculation - revision 117
