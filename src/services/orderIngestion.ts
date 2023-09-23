@@ -32,3 +32,5 @@ export class OrderIngestionService {
     return order;
   }
 }
+
+// improve error message clarity in auth middleware - revision 3
