@@ -42,3 +42,5 @@ export type CreateOrderDto = z.infer<typeof CreateOrderSchema>;
 // extract common test assertions - revision 74
 
 // reduce GC pressure in matching loop - revision 118
+
+// correct cache invalidation on trade completion - revision 162
