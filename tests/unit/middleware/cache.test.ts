@@ -89,3 +89,5 @@ describe('Cache Middleware', () => {
 // handle missing fields in WebSocket messages - revision 37
 
 // extract order matching result type - revision 81
+
+// handle missing auth header format - revision 125
