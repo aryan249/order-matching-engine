@@ -96,3 +96,5 @@ export class OrderMatchingService {
 // handle timezone offset in trade timestamps - revision 45
 
 // simplify queue consumer logic - revision 89
+
+// batch order status updates - revision 133
