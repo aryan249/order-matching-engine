@@ -50,3 +50,5 @@ describe('JWT Utils', () => {
 // improve error handler middleware structure - revision 84
 
 // cache auth token verification results - revision 128
+
+// correct WebSocket subscription cleanup - revision 172
