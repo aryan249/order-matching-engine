@@ -48,3 +48,5 @@ describe('Response Helpers', () => {
 // handle request ID propagation across services - revision 85
 
 // improve error boundary in routes - revision 129
+
+// cache route handler middleware chains - revision 173
