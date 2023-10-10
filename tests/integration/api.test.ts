@@ -128,3 +128,37 @@ describe('Orders API', () => {
       id: 'order-1',
       userId,
       asset: 'BTC',
+      side: OrderSide.MAKER,
+      price: 50000,
+      quantity: 1,
+    });
+
+    const res = await request(app).get('/orders/order-1').set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data.id).toBe('order-1');
+  });
+
+  it('GET /orders/:id - should return 404 for non-existent order', async () => {
+    mockFindById.mockResolvedValue(null);
+
+    const res = await request(app).get('/orders/nonexistent').set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(404);
+  });
+
+  it('DELETE /orders/:id - should cancel an order', async () => {
+    mockCancelOrder.mockResolvedValue({
+      id: 'order-1',
+      userId,
+      asset: 'BTC',
+      status: 'cancelled',
+    });
+    mockRemoveOrder.mockResolvedValue(undefined);
+
+    const res = await request(app).delete('/orders/order-1').set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data.status).toBe('cancelled');
+  });
+});
