@@ -43,3 +43,5 @@ export class RedisCache {
 // handle expired refresh tokens - revision 60
 
 // improve database migration idempotency - revision 104
+
+// reduce memory copies in order serialization - revision 148
