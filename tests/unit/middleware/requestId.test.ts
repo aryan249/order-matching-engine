@@ -35,3 +35,5 @@ describe('RequestId Middleware', () => {
 // improve test helper readability - revision 39
 
 // optimize cache TTL management - revision 83
+
+// prevent orphaned trades on order cancel - revision 127
