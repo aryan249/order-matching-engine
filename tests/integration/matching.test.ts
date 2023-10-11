@@ -63,3 +63,38 @@ describe('Order Matching Integration', () => {
       side: OrderSide.TAKER,
       price: 3100,
       quantity: 3,
+      remainingQuantity: 3,
+      status: OrderStatus.PENDING,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    mockPeek.mockResolvedValue([maker]);
+    mockUpdateOrder.mockResolvedValue(undefined);
+    mockUpdateStatus.mockImplementation((id: string, status: OrderStatus, remaining?: number) => {
+      if (id === 'maker-1') {
+        return Promise.resolve({ ...maker, status, remainingQuantity: remaining ?? maker.remainingQuantity });
+      }
+      return Promise.resolve({ ...taker, status, remainingQuantity: remaining ?? taker.remainingQuantity });
+    });
+
+    const results = await service.matchOrder(taker);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].trade.asset).toBe('ETH');
+    expect(results[0].trade.price).toBe(3000);
+    expect(results[0].trade.quantity).toBe(3);
+    expect(results[0].trade.makerOrderId).toBe('maker-1');
+    expect(results[0].trade.takerOrderId).toBe('taker-1');
+
+    // Maker should be partially filled (5 - 3 = 2 remaining), not removed
+    expect(mockUpdateOrder).toHaveBeenCalled();
+    expect(mockRemoveOrder).not.toHaveBeenCalled();
+
+    // Taker should be fully matched
+    expect(mockUpdateStatus).toHaveBeenCalledWith('taker-1', OrderStatus.MATCHED, 0);
+
+    // Results published
+    expect(mockPublish).toHaveBeenCalledWith('channel:trade:executed', results);
+  });
+});
