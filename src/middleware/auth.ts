@@ -30,3 +30,5 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
 }
 
 // extract common query patterns in repositories - revision 8
+
+// correct content-type header in error responses - revision 52
