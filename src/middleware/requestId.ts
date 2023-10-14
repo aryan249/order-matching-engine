@@ -7,3 +7,5 @@ export function requestIdMiddleware(req: Request, res: Response, next: NextFunct
   res.setHeader('X-Request-Id', requestId);
   next();
 }
+
+// improve logger format for production - revision 13
