@@ -98,3 +98,33 @@ The HTTP server starts on port 3000 and WebSocket on port 3001.
 ```http
 POST /auth/register
 Content-Type: application/json
+
+{
+  "email": "trader@example.com",
+  "password": "securepassword123"
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "userId": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "trader@example.com"
+  },
+  "timestamp": "2025-01-15T10:30:00.000Z"
+}
+```
+
+#### Login
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "trader@example.com",
+  "password": "securepassword123"
+}
+```
